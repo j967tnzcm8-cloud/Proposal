@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunn & Sarah</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #faf8f5;
+    --stone: #e8e3dc;
+    --warm: #c9b99a;
+    --ink: #1a1714;
+    --muted: #7a7068;
+    --accent: #b08d6a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── PAGES ── */
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  /* ── DIVIDER LINE ── */
+  .line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--warm), transparent);
+    margin: 32px auto;
+  }
+
+  .thin-line {
+    width: 80px;
+    height: 1px;
+    background: var(--warm);
+    margin: 24px auto;
+  }
+
+  /* ══════════════════════════
+     PAGE 1 — LANDING
+  ══════════════════════════ */
+  #landing {
+    background: var(--cream);
+    text-align: center;
+    gap: 0;
+  }
+
+  .eyebrow {
+    font-weight: 200;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .names-large {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 12vw, 110px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .names-large span {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .ampersand {
+    display: block;
+    font-size: clamp(32px, 6vw, 56px);
+    color: var(--warm);
+    margin: 8px 0;
+    font-style: normal;
+  }
+
+  .landing-sub {
+    font-size: 13px;
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1s forwards;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.4s forwards;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .scroll-cue span {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 200;
+  }
+
+  .scroll-arrow {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--warm), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ══════════════════════════
+     PAGE 2 — PROPOSAL
+  ══════════════════════════ */
+  #proposal {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--warm);
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .proposal-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 300;
+    line-height: 1.5;
+    max-width: 640px;
+    color: var(--cream);
+  }
+
+  .proposal-text em {
+    font-style: italic;
+    color: var(--warm);
+  }
+
+  .question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 7vw, 68px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    margin-top: 16px;
+  }
+
+  .ring-icon {
+    font-size: 48px;
+    margin: 8px 0;
+    display: block;
+    animation: ringFloat 3s ease-in-out infinite;
+  }
+
+  .btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 48px;
+    position: relative;
+    min-height: 60px;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .btn-yes {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 16px 48px;
+    background: var(--warm);
+    color: var(--ink);
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    z-index: 10;
+  }
+
+  .btn-yes:hover {
+    background: var(--accent);
+    transform: scale(1.03);
+  }
+
+  .btn-no {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: left 0.15s ease, top 0.15s ease, opacity 0.3s ease;
+    white-space: nowrap;
+  }
+
+  /* ══════════════════════════
+     PAGE 3 — SHE SAID YES
+  ══════════════════════════ */
+  #yes-page {
+    display: none;
+    background: var(--cream);
+    text-align: center;
+  }
+
+  #yes-page.visible { display: flex; }
+
+  .yes-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 10vw, 96px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .yes-sub {
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 200;
+    margin-top: 12px;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .confetti-row {
+    font-size: 28px;
+    letter-spacing: 12px;
+    margin: 8px 0;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+
+  .vows-prompt {
+    margin-top: 56px;
+    animation: fadeUp 0.8s ease 0.8s both;
+  }
+
+  .vows-prompt p {
+    font-size: 13px;
+    font-weight: 200;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .btn-vows {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 16px 48px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-vows:hover { background: #2d2926; }
+
+  /* ── VOWS PAGE ── */
+  #vows {
+    display: none;
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+  }
+  
+  #vows.visible { display: flex; }
+
+  .vows-container {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0 40px;
+    max-width: 860px;
+    width: 100%;
+    align-items: start;
+    margin-top: 40px;
+  }
+
+  .vow-side { padding: 0 16px; }
+
+  .vow-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--warm);
+    margin-bottom: 24px;
+  }
+
+  .vow-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: #c8c2b8;
+  }
+
+  .vow-divider {
+    background: linear-gradient(to bottom, transparent, var(--warm), transparent);
+    width: 1px;
+    align-self: stretch;
+    min-height: 300px;
+  }
+
+  /* ── CEREMONY PAGE ── */
+  #ceremony {
+    display: none;
+    background: var(--cream);
+    text-align: center;
+  }
+
+  #ceremony.visible { display: flex; }
+
+  .ceremony-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 8vw, 80px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .pronounce {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  .couple-names-final {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 9vw, 88px);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.1;
+    margin: 16px 0;
+  }
+
+  .couple-names-final span { font-style: italic; color: var(--accent); }
+
+  .date-stamp {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 200;
+  }
+
+  .heart-icon {
+    margin-top: 32px; 
+    font-size: 36px; 
+    letter-spacing: 16px; 
+    display: block;
+    opacity: 0;
+  }
+
+  #ceremony.visible .heart-icon {
+    animation: heartPop 0.8s ease 0.5s forwards;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.1); }
+  }
+
+  @keyframes ringFloat {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+  }
+
+  @keyframes heartPop {
+    0%   { transform: scale(0) rotate(-10deg); opacity: 0; }
+    60%  { transform: scale(1.2) rotate(3deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .vows-container {
+      grid-template-columns: 1fr;
+      gap: 40px 0;
+    }
+    .vow-divider { display: none; }
+    .btn-group { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="page" id="landing">
+  <p class="eyebrow">A question for you</p>
+  <h1 class="names-large">
+    <span>Sunn</span>
+    <span class="ampersand">&amp;</span>
+    Sarah
+  </h1>
+  <p class="landing-sub">Est. today · forever</p>
+  <a href="#proposal" class="scroll-cue">
+    <span>Begin</span>
+    <div class="scroll-arrow"></div>
+  </a>
+</section>
+
+<section class="page" id="proposal">
+  <p class="section-label">The Proposal</p>
+  <span class="ring-icon">💍</span>
+  <div class="thin-line"></div>
+  <p class="proposal-text">
+    Sarah, from the moment you came into my life,<br>
+    everything became <em>warmer, softer, more whole.</em><br><br>
+    You are my favourite thought, my best reason,<br>
+    my home wherever I am.
+  </p>
+  <div class="line"></div>
+  <p class="question">Will you marry me?</p>
+
+  <div class="btn-group" id="btnGroup">
+    <button class="btn-yes" onclick="sayYes()">Yes, always</button>
+    <button class="btn-no" id="noBtn" onmouseover="fleeNo()" onclick="fleeNo(event)">No</button>
+  </div>
+</section>
+
+<section class="page" id="yes-page">
+  <p class="section-label">She said —</p>
+  <h2 class="yes-title">Yes.</h2>
+  <p class="yes-sub">The only answer that ever mattered</p>
+  <div class="thin-line"></div>
+  <p class="confetti-row">🤍 🌿 🤍 🌿 🤍</p>
+
+  <div class="vows-prompt">
+    <p>Now, let's make it official.</p>
+    <button class="btn-vows" onclick="revealVows()">Read our vows →</button>
+  </div>
+</section>
+
+<section class="page" id="vows">
+  <p class="section-label">The Vows</p>
+  <div class="vows-container">
+    <div class="vow-side">
+      <p class="vow-name">Sunn</p>
+      <p class="vow-text">
+        I vow to love you quietly and loudly,<br>
+        on ordinary Tuesdays and impossible days.<br><br>
+        I vow to be your calm in every storm,<br>
+        your laughter when nothing is funny,<br>
+        your hand when the world feels too much.<br><br>
+        I choose you — every single day —<br>
+        without hesitation, without condition,<br>
+        for all the time we are given.
+      </p>
+    </div>
+    <div class="vow-divider"></div>
+    <div class="vow-side">
+      <p class="vow-name">Sarah</p>
+      <p class="vow-text">
+        I vow to see you fully —<br>
+        your light, your doubt, your becoming.<br><br>
+        I vow to build our life with intention,<br>
+        to hold our love like something sacred<br>
+        and tend to it like something alive.<br><br>
+        I am yours in every version of this story,<br>
+        in every chapter yet unwritten,<br>
+        in every world where we find each other.
+      </p>
+    </div>
+  </div>
+  <div class="line"></div>
+  <button class="btn-vows" style="border:none;" onclick="idoClick()">I do &#8594;</button>
+</section>
+
+<section class="page" id="ceremony">
+  <p class="section-label">By the power vested in love</p>
+  <h2 class="ceremony-title">Pronounced</h2>
+  <div class="thin-line"></div>
+  <p class="pronounce">
+    It is hereby declared, with all the joy in this moment,<br>
+    that you are married —
+  </p>
+  <div class="line"></div>
+  <p class="couple-names-final">
+    <span>Sunn</span><br>&amp;<br><span>Sarah</span>
+  </p>
+  <div class="line"></div>
+  <p class="date-stamp" id="dateStamp"></p>
+  <div class="heart-icon">🤍</div>
+</section>
+
+<script>
+  // Set today's date
+  var d = new Date();
+  document.getElementById('dateStamp').textContent =
+    d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  // YES button - Shows page 3 smoothly
+  function sayYes() {
+    var yp = document.getElementById('yes-page');
+    yp.classList.add('visible');
+    yp.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // REVEAL VOWS button
+  function revealVows() {
+    var vowsSec = document.getElementById('vows');
+    vowsSec.classList.add('visible');
+    vowsSec.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // NO button — Leaps wildly on hover or touch
+  var noMoves = 0;
+  var noLocked = false;
+
+  function fleeNo(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (noLocked) return;
+    
+    noMoves++;
+    var btn = document.getElementById('noBtn');
+    
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var w = btn.offsetWidth || 100;
+    var h = btn.offsetHeight || 44;
+    var margin = 50; 
+    
+    var newLeft = Math.random() * (vw - w - margin * 2) + margin;
+    var newTop  = Math.random() * (vh - h - margin * 2) + margin;
+    
+    btn.style.position = 'fixed';
+    btn.style.left = newLeft + 'px';
+    btn.style.top  = newTop  + 'px';
+    btn.style.zIndex = '9999';
+    
+    if (noMoves >= 5) {
+      noLocked = true;
+      btn.textContent = 'Nope, nice try 🤍';
+      btn.style.cursor = 'default';
+      btn.style.opacity = '0.3';
+    }
+  }
+
+  // I DO — Scrolls to final celebration and emails you instantly
+  function idoClick() {
+    var ceremonySec = document.getElementById('ceremony');
+    ceremonySec.classList.add('visible');
+    ceremonySec.scrollIntoView({ behavior: 'smooth' });
+    
+    fetch('https://formsubmit.co/ajax/aquilussunn@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        subject: '✨ SHE SAID I DO! ✨',
+        message: 'Sarah just officially clicked "I Do" on your wedding proposal website. Forever starts now!'
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) { console.log('Notification sent', data); })
+    .catch(function(err) { console.log('Notification failed', err); });
+  }
+</script>
+
+</body>
+</html>
